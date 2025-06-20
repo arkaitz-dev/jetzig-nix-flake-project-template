@@ -1,3 +1,35 @@
-.zig-cache/
+# Zig build outputs
 zig-out/
-*.o
+zig-cache/
+
+# Nix outputs
+result
+result-*
+flake.lock
+
+# Asset build outputs
+public/assets/
+
+# Cache directories
+.cache/
+.parcel-cache/
+.next/
+.nuxt/
+.vite/
+.turbo/
+.esbuild/
+
+# Node.js dependencies (if using npm/yarn in the future)
+node_modules/
+package-lock.json
+yarn.lock
+
+# Auto-generated Claude data
+.claude/system-data.yaml
+.claude/asset-manifest.yaml
+
+# Development files
+.env
+.env.local
+.DS_Store
+*.log
