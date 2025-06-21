@@ -14,7 +14,7 @@
     flake-utils.url = "github:numtide/flake-utils";
     zig.url = "github:mitchellh/zig-overlay";
     zls.url = "github:zigtools/zls";
-    
+
     # Jetzig source for building CLI
     jetzig = {
       url = "github:jetzig-framework/jetzig";
@@ -23,32 +23,42 @@
   };
 
   outputs = { self, nixpkgs, flake-utils, zig, zls, jetzig }:
+    let
+      # Plantilla flake para nix flake init
+      templateSrc = self;
+    in
+    {
+      templates.default = {
+        path = ./.;
+        description = "Jetzig web framework project template with Nix flake";
+      };
+    } //
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
         zigPkg = zig.packages.${system}.master;
         zlsPkg = zls.packages.${system}.zls;
-        
+
         # Build Jetzig CLI from source
         jetzigCli = pkgs.stdenv.mkDerivation {
           pname = "jetzig-cli";
           version = "unstable";
-          
+
           src = jetzig;
-          
+
           nativeBuildInputs = [ zigPkg ];
-          
+
           buildPhase = ''
             export HOME=$TMPDIR
             cd cli
             zig build -Doptimize=ReleaseSafe
           '';
-          
+
           installPhase = ''
             mkdir -p $out/bin
             cp zig-out/bin/jetzig $out/bin/
           '';
-          
+
           meta = {
             description = "CLI tool for the Jetzig web framework";
             homepage = "https://www.jetzig.dev";
@@ -63,7 +73,7 @@
             zigPkg     # Zig compiler (master)
             zlsPkg     # Zig Language Server (master)
             jetzigCli  # Jetzig CLI (master)
-            
+
             # Web development tools
             pkgs.nodePackages.lighthouse  # Lighthouse CLI for performance auditing
             pkgs.brotli                    # Brotli compression for production assets
@@ -79,7 +89,7 @@
 
           buildPhase = ''
             echo "🔧 Jetzig Build Phase"
-            
+
             # Detect current git branch
             if [ -d ".git" ]; then
               CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo "unknown")
@@ -88,13 +98,13 @@
               CURRENT_BRANCH="unknown"
               echo "⚠️  No git repository detected"
             fi
-            
+
             # Execute appropriate asset building based on branch
             case "$CURRENT_BRANCH" in
               "main"|"devel"|"unknown")
                 echo "🔥 Starting development environment with auto-reload..."
-                if [ -f ".claude/dev-server.sh" ]; then
-                  bash .claude/dev-server.sh
+                if [ -f "dev-server.sh" ]; then
+                  bash dev-server.sh
                 else
                   echo "⚠️  Development server script not found, falling back to basic server"
                   jetzig server
@@ -102,8 +112,8 @@
                 ;;
               "testing"|"prod")
                 echo "🚀 Building production assets..."
-                if [ -f ".claude/build-assets-prod.sh" ]; then
-                  bash .claude/build-assets-prod.sh
+                if [ -f "build-assets-prod.sh" ]; then
+                  bash build-assets-prod.sh
                 else
                   echo "⚠️  Production asset script not found"
                 fi
@@ -112,8 +122,8 @@
                 ;;
               *)
                 echo "🔧 Unknown branch, using development environment..."
-                if [ -f ".claude/dev-server.sh" ]; then
-                  bash .claude/dev-server.sh
+                if [ -f "dev-server.sh" ]; then
+                  bash dev-server.sh
                 else
                   echo "⚠️  Development server script not found"
                   jetzig server
@@ -156,15 +166,15 @@
         packages.default = pkgs.stdenv.mkDerivation {
           pname = "jetzig-app";
           version = "0.1.0";
-          
+
           src = ./.;
-          
+
           nativeBuildInputs = [ zigPkg jetzigCli ];
-          
+
           buildPhase = ''
             export HOME=$TMPDIR
             echo "🔧 Jetzig Package Build"
-            
+
             # Detect current git branch
             if [ -d ".git" ]; then
               CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo "unknown")
@@ -173,7 +183,7 @@
               CURRENT_BRANCH="unknown"
               echo "⚠️  No git repository detected, assuming production build"
             fi
-            
+
             # Execute appropriate asset building based on branch
             case "$CURRENT_BRANCH" in
               "main"|"devel")
@@ -189,10 +199,10 @@
                 fi
                 ;;
             esac
-            
+
             jetzig build
           '';
-          
+
           installPhase = ''
             mkdir -p $out/bin
             cp zig-out/bin/* $out/bin/
