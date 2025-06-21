@@ -4,20 +4,20 @@ A complete, intelligent development template for [Jetzig](https://github.com/jet
 
 ## ✨ Features
 
-🧠 **Intelligent Build System** - Automatically detects git branch and executes appropriate workflows  
-⚡ **Complete Auto-reload** - Live reload for Zig/Zmpl templates + JavaScript/CSS assets  
-🎨 **Modern Asset Pipeline** - esbuild + CSS processing with compression (Brotli/Gzip)  
-🎯 **Git-aware Workflows** - Different behaviors for development vs production branches  
-🔧 **Zero Configuration** - Everything works out of the box  
-📦 **Template System** - Complete project initialization with one command  
-🎨 **CSS Theme System** - Modular themes (common/light/dark) with easy customization  
-🚀 **Production Ready** - Optimized builds with SRI hashes and compression  
+🧠 **Intelligent Build System** - Automatically detects git branch and executes appropriate workflows
+⚡ **Complete Auto-reload** - Live reload for Zig/Zmpl templates + JavaScript/CSS assets
+🎨 **Modern Asset Pipeline** - esbuild + CSS processing with compression (Brotli/Gzip)
+🎯 **Git-aware Workflows** - Different behaviors for development vs production branches
+🔧 **Zero Configuration** - Everything works out of the box
+📦 **Template System** - Complete project initialization with one command
+🎨 **CSS Theme System** - Modular themes (common/light/dark) with easy customization
+🚀 **Production Ready** - Optimized builds with SRI hashes and compression
 
 ## 🚀 Quick Start
 
 ### Initialize New Project
 ```bash
-nix flake init -t github:username/jetzig-template
+nix flake init -t github:arkaitz-dev/jetzig-nix-flake-project-template
 cd your-project-name
 ```
 
@@ -49,7 +49,7 @@ The template automatically adapts behavior based on your current git branch:
 - **`nix develop`**: Launches `dev-server.sh` with complete auto-reload
 - **Auto-reload features**:
   - ✅ Zig source code changes
-  - ✅ Zmpl template changes  
+  - ✅ Zmpl template changes
   - ✅ JavaScript/CSS assets
   - ✅ Static files
 
@@ -212,5 +212,5 @@ MIT License - feel free to use this template for any project!
 ```bash
 nix flake init -t github:username/jetzig-template
 nix develop
-# Start coding! 
+# Start coding!
 ```

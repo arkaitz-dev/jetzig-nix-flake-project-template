@@ -4,7 +4,9 @@
             # sqlite     # Database
             # postgresql_15
             # curl       # HTTP client
-            # jq         # JSON processor{
+            # jq         # JSON processor
+
+{
   description = "Jetzig web framework project template with Nix flake";
 
   inputs = {
