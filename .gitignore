@@ -7,8 +7,6 @@ result
 result-*
 flake.lock
 
-# Asset build outputs
-public/assets/
 
 # Cache directories
 .cache/
@@ -24,9 +22,6 @@ node_modules/
 package-lock.json
 yarn.lock
 
-# Auto-generated Claude data
-.claude/system-data.yaml
-.claude/asset-manifest.yaml
 
 # Development files
 .env

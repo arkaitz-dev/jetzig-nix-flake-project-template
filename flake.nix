@@ -37,7 +37,9 @@
       let
         pkgs = nixpkgs.legacyPackages.${system};
         zigPkg = zig.packages.${system}.master;
-        zlsPkg = zls.packages.${system}.zls;
+        zlsPkg = zls.packages.${system}.default.overrideAttrs (oldAttrs: {
+          doCheck = false;
+        });
 
         # Build Jetzig CLI from source
         jetzigCli = pkgs.stdenv.mkDerivation {
@@ -46,7 +48,7 @@
 
           src = jetzig;
 
-          nativeBuildInputs = [ zigPkg ];
+          nativeBuildInputs = [ zigPkg pkgs.git ];
 
           buildPhase = ''
             export HOME=$TMPDIR
@@ -75,7 +77,7 @@
             jetzigCli  # Jetzig CLI (master)
 
             # Web development tools
-            pkgs.nodePackages.lighthouse  # Lighthouse CLI for performance auditing
+            pkgs.lighthouse  # Lighthouse CLI for performance auditing
             pkgs.brotli                    # Brotli compression for production assets
             pkgs.gzip                      # Gzip compression for compatibility
             pkgs.b3sum                     # BLAKE3 hashing for cache busting
