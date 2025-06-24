@@ -77,7 +77,7 @@
             jetzigCli  # Jetzig CLI (master)
 
             # Web development tools
-            pkgs.nodePackages.lighthouse  # Google Lighthouse (web auditing)
+            #pkgs.nodePackages.lighthouse  # Google Lighthouse (web auditing)
             pkgs.brotli                    # Brotli compression for production assets
             pkgs.gzip                      # Gzip compression for compatibility
             pkgs.b3sum                     # BLAKE3 hashing for cache busting
